@@ -1,5 +1,5 @@
 #pragma once
-#include "qni-api.pb.h"
+#include <qni-api/qni-api.pb.h>
 #include <vector>
 #include <memory>
 #include <mutex>

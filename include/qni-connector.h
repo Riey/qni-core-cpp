@@ -1,5 +1,5 @@
 #pragma once
-#include "./qni.h"
+#include <qni/qni.h>
 #include <map>
 #include <mutex>
 

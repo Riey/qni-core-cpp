@@ -3,8 +3,7 @@ project(qni.core)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
+include_directories(include)
+add_subdirectory(include)
 add_subdirectory(qni-api)
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}/qni-api
-    include)
 add_subdirectory(src)
