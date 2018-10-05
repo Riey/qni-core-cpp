@@ -1,5 +1,10 @@
 add_library(
-    qni.core SHARED qni.cc qni-connector.cc
+    qni.core SHARED
+
+    qni.cpp
+    qni-connector.cpp
+    qni-extern.cpp
+    internal/qni-deleter.cpp
 )
 
 target_link_libraries(
@@ -12,8 +17,5 @@ target_include_directories(
 
 install(
     TARGETS qni.core
-    LIBRARY
-        DESTINATION lib
-        COMPONENT Libraries
-        NAMELINK_COMPONENT Development
-        )
+    LIBRARY DESTINATION lib
+    )
