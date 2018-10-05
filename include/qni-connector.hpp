@@ -17,7 +17,7 @@ class ConnectorContext
     std::shared_ptr<ConsoleContext> _ctx;
     std::shared_ptr<Hub> _hub;
 
-    std::unique_ptr<std::vector<uint8_t>> process_request(Qni__Api__ConsoleRequest const &req);
+    std::unique_ptr<std::vector<uint8_t>> process_request(api::ConsoleRequest const &req);
 
     void update_console_ctx(std::shared_ptr<ConsoleContext> ctx);
 

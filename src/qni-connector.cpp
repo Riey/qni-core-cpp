@@ -28,30 +28,24 @@ void ConnectorContext::update_console_ctx(std::shared_ptr<ConsoleContext> ctx)
     this->_ctx = std::move(ctx);
 }
 
-std::unique_ptr<std::vector<uint8_t>> pack_message(Qni__Api__ProgramMessage const *msg)
+std::unique_ptr<std::string> pack_message(api::ProgramMessage const *msg)
 {
-    size_t len = qni__api__program_message__get_packed_size(msg);
-    auto buf = std::make_unique<std::vector<uint8_t>>(len);
-    qni__api__program_message__pack(msg, &buf->at(0));
-    return buf;
+    return std::make_unique<std::string>(msg->SerializeAsString());
 }
 
-std::unique_ptr<std::vector<uint8_t>> ConnectorContext::process_request(Qni__Api__ConsoleRequest const &req)
+std::unique_ptr<std::vector<uint8_t>> ConnectorContext::process_request(api::ConsoleRequest const &req)
 {
-    Qni__Api__ProgramMessage msg = QNI__API__PROGRAM_MESSAGE__INIT;
-    Qni__Api__ProgramResponse res = QNI__API__PROGRAM_RESPONSE__INIT;
+    api::ProgramMessage msg;
 
-    msg.data_case = QNI__API__PROGRAM_MESSAGE__DATA_RES;
-    msg.res = &res;
+    auto res = msg.mutable_res();
 
     switch (req.data_case)
     {
-    case QNI__API__CONSOLE_REQUEST__DATA_GET__STATE:
+    case api::ConsoleRequest::DataCase::kGETSTATE:
     {
-        size_t pos = (size_t)req.get_state;
+        size_t pos = (size_t)req.get_state();
 
-        res.data_case = QNI__API__PROGRAM_RESPONSE__DATA_OK__GET__STATE;
-        Qni__Api__ProgramCommandArray arr = QNI__API__PROGRAM_COMMAND_ARRAY__INIT;
+        res->set_allocated_ok_get_state(&this->_ctx->get_commands());
 
         this->_ctx->export_command(arr, pos);
         res.ok_get_state = &arr;
