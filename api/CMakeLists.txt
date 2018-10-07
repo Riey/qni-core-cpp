@@ -19,4 +19,4 @@ target_link_libraries(
     qni.api protobuf
 )
 
-install(FILES ${API_HEADER} DESTINATION include/qni-api)
+install(FILES ${API_HEADER} DESTINATION include/qni/api)

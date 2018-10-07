@@ -1,41 +1,34 @@
 #pragma once
 
-#include "./qni.hpp"
-#include <thread>
+#include "./qni-console.hpp"
 #include <map>
+#include <thread>
 
 namespace qni
 {
-using program_start_t = void (*)(std::shared_ptr<ConsoleContext> ctx);
+using program_start_t = void (*)(ConsoleContext *ctx);
 
 class Hub
 {
   private:
-    program_start_t _new_program;
-    std::vector<std::thread> _programs;
+    program_start_t _program_entry;
     std::map<std::string, std::shared_ptr<ConsoleContext>> _shared_ctxs;
+    std::atomic_bool _exit_flag;
     std::mutex _shared_lock;
+    std::mutex _program_lock;
 
   public:
-    std::shared_ptr<ConsoleContext> start_new_program()
-    {
-        auto ctx = std::make_shared<ConsoleContext>();
+    Hub(program_start_t entry);
 
-        this->_programs.push_back(std::thread(this->_new_program, ctx));
+    void on_console_ctx_removed(std::shared_ptr<ConsoleContext> const &ctx);
+    std::shared_ptr<ConsoleContext> start_new_program();
 
-        return ctx;
-    }
+    bool insert_ctx(std::string const &key, std::shared_ptr<ConsoleContext> ctx, bool overwrite);
+    bool erase_ctx(std::string const &key);
+    std::optional<std::shared_ptr<ConsoleContext>> get_ctx(std::string const &key);
 
-    std::map<std::string, std::shared_ptr<ConsoleContext>> &get_shared_ctxs()
-    {
-        this->_shared_lock.lock();
-        return this->_shared_ctxs;
-    }
-
-    void get_shared_ctxs_end()
-    {
-        this->_shared_lock.unlock();
-    }
+    bool need_exit() const noexcept { return this->_exit_flag; }
+    void set_exit() noexcept { this->_exit_flag = true; }
 };
 
 } // namespace qni

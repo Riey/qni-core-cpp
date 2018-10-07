@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package qni.api;
+
+message Empty {}
+
+message StringArray { repeated string data = 1; }
+
+message ErrorResponse {
+  uint32 req_type = 1;
+  string reason = 2;
+}
+
+message InputRequest {
+  uint32 expire = 1;
+
+  oneof data {
+    Empty TOUCH = 10;
+    Empty ENTER = 11;
+    Empty ANYKEY = 12;
+    Empty BOOLEAN = 13;
+    Empty STR = 20;
+    uint32 STR_MAX_LEN = 21;
+    StringArray STR_SELECT = 22;
+    Empty INT = 30;
+    uint32 INT_MAX_LEN = 31;
+    Empty FLOAT = 40;
+    uint32 FLOAT_MAX_LEN = 41;
+    Empty DATE = 50;
+    Empty DATETIME = 51;
+    Empty TIME = 52;
+    Empty COLOR = 60;
+  }
+}
+
+message InputResponse {
+  oneof data {
+    Empty EMPTY = 10;
+    bool BOOLEAN = 20;
+    string STR = 21;
+    int32 INT = 22;
+    float FLOAT = 23;
+    uint64 DATE = 30;
+    uint64 DATETIME = 31;
+    uint64 TIME = 32;
+    uint32 COLOR = 40;
+  }
+}
+
+message ConsolePrintButtonData {
+  InputResponse value = 1;
+  string text = 2;
+}
+
+message ConsolePrintData {
+  oneof data {
+    string PRINT = 10;
+    string PRINT_LINE = 11;
+    ConsolePrintButtonData PRINT_BUTTON = 12;
+    Empty NEW_LINE = 20;
+    uint32 DELETE_LINE = 30;
+    Empty CLEAR_LINE = 31;
+  }
+}
+
+enum FontStyle {
+  REGULAR = 0x0;
+  ITALIC = 0x1;
+  BOLD = 0x2;
+  UNDERLINE = 0x4;
+}
+
+message Font {
+  string font_family = 1;
+  float font_size = 2;
+  uint32 font_style = 3;
+}
+
+enum TextAlign {
+  LEFT = 0;
+  RIGHT = 1;
+  CENTER = 2;
+}
+
+message ConsoleSettingItem {
+  oneof data {
+    uint32 TEXT_COLOR = 10;
+    uint32 BACK_COLOR = 11;
+    uint32 HIGHLIGHT_COLOR = 12;
+    Font FONT = 20;
+    TextAlign TEXT_ALIGN = 21;
+  }
+}
+
+message ConsoleRequest {
+  oneof data {
+    string LOAD_STATE = 10;
+    string SHARE_STATE = 11;
+    string SHARE_STATE_OVERWRITE = 12;
+    string DELETE_STATE = 13;
+    uint64 GET_STATE = 20;
+  }
+}
+
+message ConsoleResponse {
+
+  uint32 tag = 1;
+
+  oneof data {
+    InputResponse OK_INPUT = 10;
+    ErrorResponse ERR = 255;
+  }
+}
+
+message ConsoleMessage {
+  oneof data {
+    ConsoleRequest REQ = 10;
+    ConsoleResponse RES = 11;
+  }
+}
+
+message ProgramCommand {
+  oneof data {
+    ConsolePrintData PRINT = 10;
+    ConsoleSettingItem UPDATE_SETTING = 11;
+  }
+}
+
+message ProgramCommandArray { repeated ProgramCommand commands = 1; }
+
+message ProgramRequest {
+
+  uint32 tag = 1;
+
+  oneof data { InputRequest INPUT = 10; }
+}
+
+message ProgramResponse {
+  oneof data {
+    Empty OK_LOAD_STATE = 10;
+    string OK_SHARE_STATE = 11;
+    ProgramCommandArray OK_GET_STATE = 12;
+    ErrorResponse ERR = 255;
+  }
+}
+
+message ProgramMessage {
+  oneof data {
+    ProgramRequest REQ = 10;
+    ProgramResponse RES = 11;
+    uint32 ACCEPT_RES = 12;
+  }
+}
