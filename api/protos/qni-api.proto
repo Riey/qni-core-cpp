@@ -138,8 +138,9 @@ message ProgramRequest {
 message ProgramResponse {
   oneof data {
     Empty OK_LOAD_STATE = 10;
-    string OK_SHARE_STATE = 11;
-    ProgramCommandArray OK_GET_STATE = 12;
+    Empty OK_DELETE_STATE = 11;
+    string OK_SHARE_STATE = 12;
+    ProgramCommandArray OK_GET_STATE = 13;
     ErrorResponse ERR = 255;
   }
 }

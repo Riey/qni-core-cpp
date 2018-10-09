@@ -79,7 +79,7 @@ std::unique_ptr<std::vector<uint8_t>> ConnectorContext::process_request(api::Con
         else
         {
             this->_ctx = *ctx;
-            res->mutable_ok_empty();
+            res->mutable_ok_load_state();
         }
 
         return pack_message(&msg);
@@ -120,7 +120,7 @@ std::unique_ptr<std::vector<uint8_t>> ConnectorContext::process_request(api::Con
 
         else
         {
-            res->mutable_ok_empty();
+            res->mutable_ok_delete_state();
         }
 
         return pack_message(&msg);

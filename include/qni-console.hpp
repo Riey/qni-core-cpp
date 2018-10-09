@@ -1,11 +1,12 @@
 #pragma once
-#include "api/qni-api.pb.h"
+#include "./api/qni-api.pb.h"
 #include <vector>
 #include <memory>
 #include <mutex>
 #include <atomic>
 #include <functional>
 #include <map>
+#include <optional>
 
 namespace qni
 {

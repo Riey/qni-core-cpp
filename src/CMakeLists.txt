@@ -7,19 +7,32 @@ add_library(
     qni-extern.cpp
 )
 
-target_link_libraries(
-    qni.core
-    qni.api
-    protobuf
-    pthread
-)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	target_link_libraries(
+		qni.core
+		qni.api
+		${Protobuf_LIBRARIES}
+	)
+else ()
+	target_link_libraries(
+		qni.core
+		qni.api
+		${Protobuf_LIBRARIES}
+		pthread
+	)
+endif ()
 
 target_include_directories(
     qni.core PUBLIC
-    ${CMAKE_BINARY_DIR}
+	${Protobuf_INCLUDE_DIR}
 )
 
 install(
     TARGETS qni.core
-    LIBRARY DESTINATION lib
-    )
+    DESTINATION lib
+)
+
+install(
+	FILES ${API_HEADER}
+	DESTINATION include/qni/api
+)
