@@ -27,12 +27,15 @@ target_include_directories(
 	${Protobuf_INCLUDE_DIR}
 )
 
-install(
-    TARGETS qni.core
-    DESTINATION lib
-)
 
-install(
-	FILES ${API_HEADER}
-	DESTINATION include/qni/api
-)
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	install(
+		TARGETS qni.core
+		DESTINATION bin
+	)
+else()
+	install(
+		TARGETS qni.core
+		DESTINATION lib
+	)
+endif()

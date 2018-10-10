@@ -8,16 +8,10 @@
         "msvc_x64_x64"
       ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
-      "installRoot": "${env.VCPKG_PATH}\\installed\\x64-windows",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "${env.VCPKG_PATH}\\scripts\\buildsystems\\vcpkg.cmake"
-        }
-      ]
+      "ctestCommandArgs": ""
     }
   ]
 }
