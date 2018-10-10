@@ -27,15 +27,7 @@ target_include_directories(
 	${Protobuf_INCLUDE_DIR}
 )
 
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	install(
-		TARGETS qni.core
-		DESTINATION bin
-	)
-else()
-	install(
-		TARGETS qni.core
-		DESTINATION lib
-	)
-endif()
+install(TARGETS qni.core
+	RUNTIME DESTINATION bin
+	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib)
