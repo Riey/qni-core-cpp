@@ -21,5 +21,3 @@ target_include_directories(
 	qni.api PUBLIC
 	${Protobuf_INCLUDE_DIR}
 )
-
-install(FILES ${API_HEADER} DESTINATION include/qni/api)

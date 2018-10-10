@@ -1,4 +1,4 @@
 /build
 .vscode/settings.json
-include/api/*
+include/api/qni*
 /.vs
