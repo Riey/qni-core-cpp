@@ -1,4 +1,4 @@
-#include "qni-extern.hpp"
+#include "qni/qni-extern.hpp"
 
 #include <cstring>
 

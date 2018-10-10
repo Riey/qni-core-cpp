@@ -1,4 +1,4 @@
-#include "qni-console.hpp"
+#include "qni/qni-console.hpp"
 #include <thread>
 #include <chrono>
 

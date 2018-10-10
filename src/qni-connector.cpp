@@ -1,4 +1,4 @@
-#include "qni-connector.hpp"
+#include "qni/qni-connector.hpp"
 
 namespace qni
 {

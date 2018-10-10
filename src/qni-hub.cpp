@@ -1,4 +1,4 @@
-#include "qni-hub.hpp"
+#include "qni/qni-hub.hpp"
 
 namespace qni
 {
